@@ -1,0 +1,82 @@
+<div class="dashboard-container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">AEM Dashboard</a>
+    <div class="ml-auto">
+      <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-4">
+    <h2 class="mb-4">Dashboard</h2>
+
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && dashboardData">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Donut Chart</h5>
+            </div>
+            <div class="card-body">
+              <plotly-plot
+                [data]="donutChartData"
+                [layout]="donutChartLayout"
+                [config]="donutChartConfig"
+                [useResizeHandler]="true"
+                [style]="{ width: '100%', height: '100%' }">
+              </plotly-plot>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Bar Chart</h5>
+            </div>
+            <div class="card-body">
+              <plotly-plot
+                [data]="barChartData"
+                [layout]="barChartLayout"
+                [config]="barChartConfig"
+                [useResizeHandler]="true"
+                [style]="{ width: '100%', height: '100%' }">
+              </plotly-plot>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Users Table</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let key of getTableHeaders()">{{ key }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of dashboardData.tableUsers">
+                      <td *ngFor="let key of getTableHeaders()">{{ user[key] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
